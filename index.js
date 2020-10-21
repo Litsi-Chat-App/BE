@@ -6,14 +6,17 @@ let rooms = {};
 
 function checkRooms() {
   console.log(rooms);
-  let roomarray = Object.values(rooms);
-  roomarray.forEach((room) => {
-    if (room.length > 1) {
-      console.log('Bigger');
+  for (let key of Object.keys(rooms)) {
+    if (rooms[key].length > 1) {
+      let randomMeeting = Math.random().toString(36).substring(7);
+      rooms[key].forEach((member) => {
+        io.to(member).emit('link', `https://meet.jit.si/${randomMeeting}`);
+      });
+      rooms[key] = [];
     } else {
       console.log('Smaller');
     }
-  });
+  }
 }
 
 function addSocketToRoom(socket) {
@@ -49,6 +52,6 @@ io.on('connection', async (socket) => {
   });
 });
 
-setInterval(checkRooms, 100000);
+setInterval(checkRooms, 1);
 
 server.listen(process.env.PORT || 4000);
