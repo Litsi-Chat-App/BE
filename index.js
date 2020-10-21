@@ -49,6 +49,6 @@ io.on('connection', async (socket) => {
   });
 });
 
-setInterval(checkRooms, 1000);
+setInterval(checkRooms, 100000);
 
-server.listen(4000);
+server.listen(process.env.PORT || 4000);
